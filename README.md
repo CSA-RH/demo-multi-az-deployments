@@ -6,7 +6,7 @@ This play demonstrates how OpenShift's scheduling mechanisms work together to en
 
 ## Basic setup
 
-Create projects
+Create projects:
 
 ```bash
 oc new-project demo-ha
@@ -19,6 +19,11 @@ In one terminal window, execute the following script, which will summarize the n
 watch "echo "____"; echo "NODES";echo "----"; oc get pod -o=custom-columns=NODE:.spec.nodeName --no-headers | sort | uniq -c; echo "____"; echo "PODS"; echo "----"; oc get pods -owide"
 ```
 
+Move to the demo-ha project
+
+```bash
+oc project demo-ha
+```
 Create a deployment with many replicas in the same node (picked randomly). 
 
 ```bash
@@ -213,4 +218,11 @@ oc scale deploy/hello-hostname --replicas=20
 Delete de deployment: 
 ```bash
 oc delete deploy/hello-hostname
+```
+
+## Cleanup
+
+Delete projects
+```bash
+oc delete project demo-ha demo-ha-load
 ```

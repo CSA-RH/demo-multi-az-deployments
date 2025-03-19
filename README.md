@@ -142,7 +142,7 @@ spec:
     metadata:
       labels:
         app: hello-az
-   spec:
+    spec:
       topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: topology.kubernetes.io/zone

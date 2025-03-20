@@ -19,15 +19,16 @@ In one terminal window, execute the following script, which will summarize the n
 watch "echo "____"; echo "NODES";echo "----"; oc get pod -o=custom-columns=NODE:.spec.nodeName --no-headers | sort | uniq -c; echo "____"; echo "PODS"; echo "----"; oc get pods -owide"
 ```
 
-Move to the demo-ha project
+I a new terminal window, make sure you are in the demo-ha-load project
 
 ```bash
-oc project demo-ha
+oc project -q
 ```
 Create a deployment with many replicas in the same node (picked randomly). 
 
 ```bash
-NODE=$(oc get no -ojsonpath={.items} | jq -r '.[0].metadata.name') cat <<EOF | oc apply -f -
+NODE=$(oc get no -ojsonpath={.items} | jq -r '.[0].metadata.name') 
+cat <<EOF | oc apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -56,6 +57,12 @@ spec:
         imagePullPolicy: IfNotPresent
         name: hello-openshift
 EOF
+```
+
+Observe the creation of 100 pods in the same node and move to the demo-ha project
+
+```bash
+oc project demo-ha
 ```
 
 ## Regular deployment without topology affinity rules
